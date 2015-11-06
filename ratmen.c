@@ -855,11 +855,6 @@ void run_menu(int cur) {
                 /* BadWindow not mentioned in doc */
                 XLookupString(&event.xkey, NULL, 0, &key, NULL);
                 switch (key) {
-                    /* case ????: (Ctrl-L for refresh)
-                        full_redraw = True;
-                        redraw(cur, high, wide);
-                        return 5
-                    */
                     case XK_Escape:
                     case XK_q:
                         return;
@@ -901,6 +896,54 @@ void run_menu(int cur) {
                     case XK_k:
                     case XK_minus:
                         cur-- <=  0        ? cur = numitems - 1 : 0 ;
+                        cur_store = cur;
+                        redraw(cur, high, wide);
+                        break;
+
+                    case XK_d:
+                        if (event.xkey.state == 4)
+                        {
+                            (cur+=visible_items/4) >= numitems? cur=numitems-1 : 0;
+                            cur_store = cur;
+                            redraw(cur, high, wide);
+                        }
+                        break;
+
+                    case XK_u:
+                        if (event.xkey.state == 4)
+                        {
+                            (cur-=visible_items/4) <= 0? cur=0 : 0;
+                            cur_store = cur;
+                            redraw(cur, high, wide);
+                        }
+                        break;
+
+                    case XK_f:
+                        if (event.xkey.state == 4)
+                        {
+                            (cur+=visible_items) >= numitems? cur=numitems-1 : 0;
+                            cur_store = cur;
+                            redraw(cur, high, wide);
+                        }
+                        break;
+
+                    case XK_b:
+                        if (event.xkey.state == 4)
+                        {
+                            (cur-=visible_items) <= 0? cur=0 : 0;
+                            cur_store = cur;
+                            redraw(cur, high, wide);
+                        }
+                        break;
+
+                    case XK_g:
+                        cur = 0;
+                        cur_store = cur;
+                        redraw(cur, high, wide);
+                        break;
+
+                    case XK_G:
+                        cur = numitems-1;
                         cur_store = cur;
                         redraw(cur, high, wide);
                         break;
@@ -1445,11 +1488,17 @@ B<Back> keystrokes does nothing unless the B<--back> option was used, in which
 case it will run the command specified by that option and exit ratmen. The
 B<Exit> keystrokes quit ratmen without doing anything.
 
-    Up      "k", Up_arrow, BackSpace, "-"
-    Down    "j", Down_arrow, Space, Tab, "+"
-    Select  "l", Right_arrow, Return
-    Back    "h", Left_arrow
-    Exit    "q", Escape
+    Up                  "k", Up_arrow, BackSpace, "-"
+    Down                "j", Down_arrow, Space, Tab, "+"
+    Select              "l", Right_arrow, Return
+    Back                "h", Left_arrow
+    Exit                "q", Escape
+    Half page down      CTRL-D
+    Half page up        CTRL-U
+    One page down       CTRL-F
+    One page up         CTRL-B
+    First entry         "g"
+    Last entry          "G"
 
 
 =head1 MOUSE SUPPORT

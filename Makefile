@@ -75,7 +75,7 @@ install: $(OUTFILES)
 upload: dist
 	scp -p $(TARFILE) $(EBUILDFILE) $(UPLOADDEST)
 
-test:
+test: $(PROG)
 	cd ./tests && ./gen_menu.sh test 100
 
 #[[eof]]
