@@ -1,0 +1,18 @@
+Source: ratmenu
+Section: x11
+Priority: optional
+Maintainer: Jonathan Walther <krooger@debian.org>
+Build-Depends: xlibs-dev, debhelper (>=4.0.11)
+Standards-Version: 3.5.6.1
+
+Package: ratmenu
+Suggests: ratpoison, keylaunch
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Creates X menus from the shell.
+ This is ratmenu, a simple program that allows you to create X menus from
+ the shell.  It was forked from 9menu version 1.5, to provide specific support
+ for the ratpoison window manager.  Where 9menu only responds to the mouse,
+ and ignores the keyboard, ratmenu has all mouse sensitivity taken out, and only
+ responds to the keyboard.  Although designed for ratpoison, it will work with
+ any ICCCM compliant window manager.

@@ -1,0 +1,11 @@
+Sat Sep 15 10:17:25 PDT 2001
+
+ratmenu is a hacked up version of 9menu.  According to the
+terms of the 9menu license, we include the 9menu README
+file, renamed to README.9menu
+
+Anyone who wishes to modify and redistribute ratmenu is bound
+by the terms in README.9menu, the same as we are.
+
+Jonathan Walther
+djw@reactor-core.org
