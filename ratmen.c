@@ -948,6 +948,31 @@ void run_menu(int cur) {
                         redraw(cur, high, wide);
                         break;
 
+                    case XK_H:
+                        if (last_top < 0)
+                        {
+                            cur = 0;
+                        }
+                        else
+                        {
+                            cur = last_top;
+                        }
+                        cur_store = cur;
+                        redraw(cur, high, wide);
+                        break;
+
+                    case XK_M:
+                        cur = last_top+(visible_items/2);
+                        cur_store = cur;
+                        redraw(cur, high, wide);
+                        break;
+
+                    case XK_L:
+                        cur = last_top+(visible_items-1);
+                        cur_store = cur;
+                        redraw(cur, high, wide);
+                        break;
+
                     case XK_Home:
                     case XK_Page_Up:
                         cur = 0;
@@ -1499,6 +1524,9 @@ B<Exit> keystrokes quit ratmen without doing anything.
     One page up         CTRL-B
     First entry         "g"
     Last entry          "G"
+    Top line            "H"
+    Middle line         "M"
+    Bottom line         "L"
 
 
 =head1 MOUSE SUPPORT
