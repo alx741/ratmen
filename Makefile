@@ -1,14 +1,5 @@
-# Makefile for ratmen
-#
-# Jonathan Walther
-# djw@reactor-core.org
-#
-# modified by
-# Zrajm C Akfohg
-# ratmen-mail@klingonska.org
-
-PROG       = ratmen
-DISTFILES  = ChangeLog LICENSE Makefile README README.9menu debian ratmen.c $(EBUILDFILE)
+PROG       = vmenu
+DISTFILES  = ChangeLog LICENSE Makefile README README.9menu debian vmenu.c $(EBUILDFILE)
 OUTFILES   = $(PROG) $(PROG).1 $(TARFILE)
 
 FULLNAME   = $(PROG)-$(VERSION)
@@ -16,7 +7,7 @@ TARFILE    = $(FULLNAME).tar.gz
 EBUILDFILE = $(FULLNAME).ebuild
 UPLOADDEST = psilocybe.update.uu.se:public_html/programs/$(PROG)
 
-# extract version by running './ratmen --version'
+# extract version by running './vmenu --version'
 VERSION = $(shell                     \
     if [ -e ./$(PROG) ]; then         \
     ./$(PROG) --version |             \
