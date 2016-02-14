@@ -26,9 +26,7 @@ Configuration
 -------------
 
 **VMENU** set preferences from the standard `~/.Xresources` file that you
-probably have already configured for other X programs.
-
-Take my
+probably have already configured for other X programs. Take my
 [.Xresources](https://github.com/alx741/dotfiles/blob/master/urxvt/.Xresources)
 file as example.
 
