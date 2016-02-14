@@ -1,0 +1,9 @@
+Makefile
+src/Makefile
+config.h
+config.log
+config.status
+src/.deps
+stamp-h1
+*.o
+src/vmenu
