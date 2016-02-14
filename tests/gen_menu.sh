@@ -3,7 +3,7 @@
 # Usage: $0 prefix n
 # Generate a printing menu (-pd:) of N elements and PREFIX
 
-RATMEN="../ratmen"
+VMENU="../vmenu"
 
 if [[ $1 == "" ]] || [[ $2 == "" ]]
 then
@@ -13,16 +13,16 @@ then
 fi
 
 
-if [[ ! -x "$RATMEN" ]]
+if [[ ! -x "$VMENU" ]]
 then
-    echo "[!] Please compile ratmen first"
+    echo "[!] Please compile vmenu first"
     echo
     exit 0
 fi
 
 
 
-command="$RATMEN -pd: "
+command="$VMENU -pd: "
 for i in `seq "$2"`
 do
     command+="$1_$i "
