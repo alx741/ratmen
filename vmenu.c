@@ -407,7 +407,7 @@ void xresources(Display *dpy) {
 
     |* align: {left|center|right} *|
     if (align == Undef &&
-        XrmGetResource(resourceDb, "ratmen*align", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*align", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -418,7 +418,7 @@ void xresources(Display *dpy) {
 
     |* background: BGCOLOR *|
     if (bgcname == NULL &&
-        XrmGetResource(resourceDb, "ratmen*background", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*background", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -427,7 +427,7 @@ void xresources(Display *dpy) {
 
     |* font: FNAME *|
     if (fontname == NULL &&
-        XrmGetResource(resourceDb, "ratmen*font", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*font", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -436,7 +436,7 @@ void xresources(Display *dpy) {
 
     |* foreground: FGCOLOR *|
     if (fgcname == NULL &&
-        XrmGetResource(resourceDb, "ratmen*foreground", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*foreground", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -445,7 +445,7 @@ void xresources(Display *dpy) {
 
     |* style: {dreary|snazzy} *|
     if (style == Undef &&
-        XrmGetResource(resourceDb, "ratmen*style", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*style", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -455,7 +455,7 @@ void xresources(Display *dpy) {
 
     |* scrollOffset: ITEMS *|
     if (scroll_offset == Undef &&
-        XrmGetResource(resourceDb, "ratmen*scrollOffset", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*scrollOffset", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -464,7 +464,7 @@ void xresources(Display *dpy) {
 
     |* unfocusExit: {on|yes|true|off|no|false} *|
     if (unfocus_exit == Undef &&
-        XrmGetResource(resourceDb, "ratmen*unfocusExit", "", &tmp, &value)
+        XrmGetResource(resourceDb, "vmenu*unfocusExit", "", &tmp, &value)
     ) {
         tmp = value.addr;
         if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
@@ -505,7 +505,6 @@ void items(int start, int count, char **arg) {
         }
         return;
     } else {                                   /* without delimiter */
-        /* do as `ratmenu' does */
         if ((count-start) % 2 != 0) die("not an even number of menu arguments");
         if ((count-start) * 2 <  1) die("not enough arguments");
 
@@ -1105,7 +1104,7 @@ void set_wm_hints(int wide, int high, int font_height) {
     wmhints->flags         = StateHint | InputHint;
 
     classhints->res_name   = progname;
-    classhints->res_class  = "ratmen";
+    classhints->res_class  = "vmenu";
 
     XSetWMProperties(dpy, menuwin, &wname, NULL,
         g_argv, g_argc, &sizehints, wmhints, classhints);
