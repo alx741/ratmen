@@ -84,7 +84,7 @@ int   unfocus_exit = Undef;                    /* -u, --unfocus-exit */
 
 
 /* function prototypes */
-int  strcasecmp(char*, char*);                 /* string comparison */
+/* int  strcasecmp(char*, char*);                 /1* string comparison *1/ */
 void ask_wm_for_delete(void);
 void reap(int);
 void redraw_snazzy(int, int, int);
