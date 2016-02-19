@@ -492,93 +492,6 @@ void xresources(Display *dpy)
 }
 
 
-/* completely written by Zrajm *|
-void xresources(Display *dpy) {
-    XrmDatabase resourceDb = 0;
-    XrmValue    value;                     |* resource value container   *|
-    char        *cp, *tmp;
-
-    XrmInitialize();
-    if (!(XResourceManagerString(dpy))) return;
-
-    |* get Xresource database *|
-    resourceDb = XrmGetStringDatabase(XResourceManagerString(dpy));
-
-    |* align: {left|center|right} *|
-    if (align == Undef &&
-        XrmGetResource(resourceDb, "vmenu*align", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if      (strcasecmp(tmp, "left"  ) == 0) align = left;
-        else if (strcasecmp(tmp, "center") == 0) align = center;
-        else if (strcasecmp(tmp, "right" ) == 0) align = right;
-    }
-
-    |* background: BGCOLOR *|
-    if (bgcname == NULL &&
-        XrmGetResource(resourceDb, "vmenu*background", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if (tmp) bgcname = tmp;
-    }
-
-    |* font: FNAME *|
-    if (fontname == NULL &&
-        XrmGetResource(resourceDb, "vmenu*font", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if (tmp) fontname = tmp;
-    }
-
-    |* foreground: FGCOLOR *|
-    if (fgcname == NULL &&
-        XrmGetResource(resourceDb, "vmenu*foreground", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if (tmp) fgcname = tmp;
-    }
-
-    |* style: {dreary|snazzy} *|
-    if (style == Undef &&
-        XrmGetResource(resourceDb, "vmenu*style", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if      (strcasecmp(tmp, "dreary") == 0) style = dreary;
-        else if (strcasecmp(tmp, "snazzy") == 0) style = snazzy;
-    }
-
-    |* scrollOffset: ITEMS *|
-    if (scroll_offset == Undef &&
-        XrmGetResource(resourceDb, "vmenu*scrollOffset", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        scroll_offset = atoi(tmp);
-    }
-
-    |* unfocusExit: {on|yes|true|off|no|false} *|
-    if (unfocus_exit == Undef &&
-        XrmGetResource(resourceDb, "vmenu*unfocusExit", "", &tmp, &value)
-    ) {
-        tmp = value.addr;
-        if ((cp = strchr(tmp, ' '))) *cp++ = '\0';
-        if      (strcasecmp(tmp, "on"  )  == 0) unfocus_exit = True;
-        else if (strcasecmp(tmp, "yes")   == 0) unfocus_exit = True;
-        else if (strcasecmp(tmp, "true")  == 0) unfocus_exit = True;
-        else if (strcasecmp(tmp, "off")   == 0) unfocus_exit = False;
-        else if (strcasecmp(tmp, "no")    == 0) unfocus_exit = False;
-        else if (strcasecmp(tmp, "false") == 0) unfocus_exit = False;
-    }
-    XrmDestroyDatabase(resourceDb);
-}
-*/
-
-
 void items(int start, int count, char **arg)
 {
     int j;
@@ -1406,6 +1319,7 @@ void redraw_snazzy(int cur_item, int high, int wide)
     XFillRectangle(dpy, menuwin, gc, 0, 0, wide, high);
 }
 
+
 void redraw_mouse(int cur_item, int high, int wide)
 {
     if (cur_item <= last_top)
@@ -1517,22 +1431,3 @@ void redraw_dreary(int cur_item, int high, int wide)
     }
     last_item = cur_item;
 }
-
-/*
-void redraw_dreary (int cur, int high, int wide) {
-    int i, ty, tx;
-    XClearWindow(dpy, menuwin);
-    for (i = 0; i < numitems; i++) {
-        if (align == right) {
-            tx = wide - XTextWidth(font, labels[i], strlen(labels[i]));
-        } else if (align == center) {
-            tx = (wide - XTextWidth(font, labels[i], strlen(labels[i]))) / 2;
-        } else { |* align == left *|
-            tx = 0;
-        }
-        ty = i*high + font->ascent + 1;
-        XDrawString(dpy, menuwin, gc, tx, ty, labels[i], strlen(labels[i]));
-    }
-    XFillRectangle(dpy, menuwin, gc, 0, cur*high, wide, high);
-}
-*/
