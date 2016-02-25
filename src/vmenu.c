@@ -13,7 +13,8 @@
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
 #include <getopt.h>
-#include <misc.h>
+#include "misc.h"
+#include "config.h"
 
 #define FONT "9x15bold"
 /*
@@ -49,7 +50,6 @@ Window savewindow;
 
 
 #define Undef -1
-char *progname;                                /* program name */
 
 /* menu structure */
 char **labels;                                 /* list of menu labels */
@@ -118,8 +118,8 @@ static char *event_names[] =
 /* produce error message */
 void die(char *message)
 {
-    fprintf(stderr, "%s: %s\n", progname, message);
-    fprintf(stderr, "Try `%s --help' for more information.\n", progname);
+    fprintf(stderr, "%s: %s\n", PACKAGE, message);
+    fprintf(stderr, "Try `%s --help' for more information.\n", PACKAGE);
     exit(1);
 }
 
@@ -330,7 +330,7 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
     char *tmp = "";
     if (test)
     {
-        tmp = XGetDefault(dpy, progname, resource);
+        tmp = XGetDefault(dpy, PACKAGE, resource);
         if (tmp != NULL)                       /* found resource */
         {
             /*
@@ -339,16 +339,16 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
             */
             if (debug == True)
                 fprintf(stderr, "  %s.%-12s: >%s<\n",
-                        progname, resource, tmp);
+                        PACKAGE, resource, tmp);
             return tmp;
         }
         else if (debug == True)                /* no resource found */
             fprintf(stderr, "  %s.%-12s: [not defined in X resources]\n",
-                    progname, resource);
+                    PACKAGE, resource);
     }
     else if (debug == True)                    /* given on command line */
         fprintf(stderr, "  %s.%-12s: [overriden by command line]\n",
-                progname, resource);
+                PACKAGE, resource);
     return NULL;
 }
 
@@ -581,26 +581,16 @@ int main(int argc, char **argv)
     g_argv = argv;
 
 
-    /* get program name (=default X resource class & title) */
-    if ((cp = strrchr(argv[0], '/')))          /* if argv[0] contains slash  */
-    {
-        progname = ++cp;    /*   use all after that       */
-    }
-    else                                       /* otherwise                  */
-    {
-        progname = argv[0];    /*   use argv[0] as is        */
-    }
-
     /* set defaults for non-resource options */
-    titlename = progname;                      /* default window title */
-    classname = progname;                      /* default X resource class */
+    titlename = PACKAGE;                      /* default window title */
+    classname = PACKAGE;                      /* default X resource class */
     i = args(argc, argv);                      /* process command line args */
     items(i, argc, argv);                      /* process menu items */
 
     dpy = XOpenDisplay(displayname);
     if (dpy == NULL)
     {
-        fprintf(stderr, "%s: cannot open display", progname);
+        fprintf(stderr, "%s: cannot open display", PACKAGE);
         if (displayname != NULL)
         {
             fprintf(stderr, " %s", displayname);
@@ -670,7 +660,7 @@ int main(int argc, char **argv)
 
     if ((font = XLoadQueryFont(dpy, fontname)) == NULL)
     {
-        fprintf(stderr, "%s: fatal: cannot load font `%s'\n", progname, fontname);
+        fprintf(stderr, "%s: fatal: cannot load font `%s'\n", PACKAGE, fontname);
         exit(1);
     }
 
@@ -714,7 +704,7 @@ void spawn(char *com)
     pid = fork();
     if (pid < 0)
     {
-        fprintf(stderr, "%s: can't fork\n", progname);
+        fprintf(stderr, "%s: can't fork\n", PACKAGE);
         return;
     }
     else if (pid > 0)
@@ -1182,14 +1172,14 @@ void set_wm_hints(int wide, int high, int font_height)
     if ((wmhints = XAllocWMHints()) == NULL)
     {
         fprintf(stderr, "%s: cannot allocate window manager hints\n",
-                progname);
+                PACKAGE);
         exit(1);
     }
 
     if ((classhints = XAllocClassHint()) == NULL)
     {
         fprintf(stderr, "%s: cannot allocate class hints\n",
-                progname);
+                PACKAGE);
         exit(1);
     }
 
@@ -1206,7 +1196,7 @@ void set_wm_hints(int wide, int high, int font_height)
     if (XStringListToTextProperty(&titlename, 1, &wname) == 0)
     {
         fprintf(stderr, "%s: cannot allocate window name structure\n",
-                progname);
+                PACKAGE);
         exit(1);
     }
 
@@ -1218,7 +1208,7 @@ void set_wm_hints(int wide, int high, int font_height)
     wmhints->initial_state = NormalState;
     wmhints->flags         = StateHint | InputHint;
 
-    classhints->res_name   = progname;
+    classhints->res_name   = PACKAGE;
     classhints->res_class  = "vmenu";
 
     XSetWMProperties(dpy, menuwin, &wname, NULL,
@@ -1236,7 +1226,7 @@ void ask_wm_for_delete(void)
 
     if (status != True)
         fprintf(stderr, "%s: cannot ask for clean delete\n",
-                progname);
+                PACKAGE);
 }
 
 

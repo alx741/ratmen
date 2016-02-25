@@ -1,11 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "config.h"
 
 void print_help(void)
 {
-    printf("Usage: vmenu [OPTION]... MENUITEM COMMAND ...\n"
-           "   or: vmenu [OPTION]... {-d::|--delimiter ::} MENUITEM::COMMAND ...\n"
+    printf("Usage: %s [OPTION]... MENUITEM COMMAND ...\n"
+           "   or: %s [OPTION]... {-d::|--delimiter ::} MENUITEM::COMMAND ...\n"
            "Create a simple X menu in a separate window and run user selected command.\n"
-           "\n");
+           "\n", PACKAGE, PACKAGE);
     printf(
         "  -l, -c, -r,                      set window text alignment (Xresource)\n"
         "        --align {left|center|right}\n"
@@ -40,12 +42,12 @@ void print_help(void)
 
 void print_version(void)
 {
-    printf("vmenu 2.2.3\n"
+    printf("%s 2.2.3\n"
            "Written by Arnold Robbins & David Hogan (1994-1995),\n"
            "John M. O'Donnell (1997), Jonathan Walther (2001),\n"
            "Zrajm C Akfohg (2003, 2007) and Daniel Campoverde (2016)\n"
            "\n"
            "Copyright 1994-1995, 1997, 2001, 2003, 2007 by respective author.\n"
-           "Distributed under the GNU Public License.\n");
+           "Distributed under the GNU Public License.\n", PACKAGE);
     exit(0);
 }
