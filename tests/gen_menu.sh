@@ -3,7 +3,7 @@
 # Usage: $0 prefix n
 # Generate a printing menu (-pd:) of N elements and PREFIX
 
-VMENU="../vmenu"
+VMENU="../src/vmenu"
 
 if [[ $1 == "" ]] || [[ $2 == "" ]]
 then
