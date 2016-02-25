@@ -13,6 +13,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
 #include <getopt.h>
+#include <stdbool.h>
 #include "misc.h"
 #include "config.h"
 
@@ -61,7 +62,7 @@ int visible_items;                             /* number of items visible */
 /* program determined settings */
 int last_item     = -1;                        /* previously selected item */
 int last_top      = -1;                        /* previous top item in menu */
-int full_redraw   =  True;                     /* redraw all menu items */
+bool full_redraw   =  true;                     /* redraw all menu items */
 int cur_scroll_offset = Undef;
 
 /* command line setting variables */
@@ -69,19 +70,19 @@ enum  { left, center, right } align = Undef;   /* -l, -r, -c, --align WAY */
 char *prevmenu     = NULL;                     /* -b, --back PREVMENU */
 char *bgcname      = NULL;                     /*     --background BGCOLOR */
 char *classname    = NULL;                     /* -C, --class CLASSNAME */
-int   debug        = False;                    /*     --debug */
+bool   debug        = false;                    /*     --debug */
 char *delimiter    = NULL;                     /* -d, --delimiter DELIM */
 char *displayname;                             /* -D, --display DISPLAYNAME */
 char *fgcname      = NULL;                     /*     --foreground FGCOLOR */
 char *fontname     = NULL;                     /* -F, --font FNAME */
 int   cur_item     = 0;                        /* -i, --item POSITION */
-int   mouse_on     = Undef;                    /*     --mouse / --no-mouse */
+bool   mouse_on     = Undef;                    /*     --mouse / --no-mouse */
 enum  { print, execute } output = execute;     /* -p, --print */
 int   scroll_offset = Undef;                   /* -o, --scroll-offset ITEMS */
 char *shell        = "/bin/sh";                /* -S, --shell SHELL */
 enum  { dreary, snazzy } style = Undef;        /* -s, --style STYLE */
 char *titlename    = NULL;                     /* -t, --title NAME */
-int   unfocus_exit = Undef;                    /* -u, --unfocus-exit */
+bool   unfocus_exit = Undef;                    /* -u, --unfocus-exit */
 
 
 /* function prototypes */
@@ -210,7 +211,7 @@ int args(int argc, char **argv)
                 break;
 
             case 'X': /* --debug */
-                debug = True;
+                debug = true;
                 break;
 
             case 'd': /* -d, --delimiter DELIM */
@@ -242,11 +243,11 @@ int args(int argc, char **argv)
                 break;
 
             case 'm': /*     --mouse */
-                mouse_on = True;
+                mouse_on = true;
                 break;
 
             case 'M': /*     --no-mouse */
-                mouse_on = False;
+                mouse_on = false;
                 break;
 
             case 'l': /* -l, --align=left */
@@ -292,11 +293,11 @@ int args(int argc, char **argv)
                 break;
 
             case 'u': /* -u, --unfocus-exit */
-                unfocus_exit = True;
+                unfocus_exit = true;
                 break;
 
             case 'U': /* -U, --no-unfocus-exit */
-                unfocus_exit = False;
+                unfocus_exit = false;
                 break;
 
             case 'V': /* -V, --version */
@@ -328,16 +329,16 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
             if ((cut = strchr(tmp, ' ')))      |* trunc at 1st space *|
                 *cut++ = '\0';
             */
-            if (debug == True)
+            if (debug == true)
                 fprintf(stderr, "  %s.%-12s: >%s<\n",
                         PACKAGE, resource, tmp);
             return tmp;
         }
-        else if (debug == True)                /* no resource found */
+        else if (debug == true)                /* no resource found */
             fprintf(stderr, "  %s.%-12s: [not defined in X resources]\n",
                     PACKAGE, resource);
     }
-    else if (debug == True)                    /* given on command line */
+    else if (debug == true)                    /* given on command line */
         fprintf(stderr, "  %s.%-12s: [overriden by command line]\n",
                 PACKAGE, resource);
     return NULL;
@@ -348,7 +349,7 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
 void xresources(Display *dpy)
 {
     char *tmp = "";
-    if (debug == True)
+    if (debug == true)
     {
         fprintf(stderr, "Reading X resources:\n");
     }
@@ -402,27 +403,27 @@ void xresources(Display *dpy)
     {
         if (strcasecmp(tmp, "on")  == 0)
         {
-            mouse_on = True;
+            mouse_on = true;
         }
         else if (strcasecmp(tmp, "yes")   == 0)
         {
-            mouse_on = True;
+            mouse_on = true;
         }
         else if (strcasecmp(tmp, "true")  == 0)
         {
-            mouse_on = True;
+            mouse_on = true;
         }
         else if (strcasecmp(tmp, "off")   == 0)
         {
-            mouse_on = False;
+            mouse_on = false;
         }
         else if (strcasecmp(tmp, "no")    == 0)
         {
-            mouse_on = False;
+            mouse_on = false;
         }
         else if (strcasecmp(tmp, "false") == 0)
         {
-            mouse_on = False;
+            mouse_on = false;
         }
     }
 
@@ -456,27 +457,27 @@ void xresources(Display *dpy)
     {
         if (strcasecmp(tmp, "on")  == 0)
         {
-            unfocus_exit = True;
+            unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "yes")   == 0)
         {
-            unfocus_exit = True;
+            unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "true")  == 0)
         {
-            unfocus_exit = True;
+            unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "off")   == 0)
         {
-            unfocus_exit = False;
+            unfocus_exit = false;
         }
         else if (strcasecmp(tmp, "no")    == 0)
         {
-            unfocus_exit = False;
+            unfocus_exit = false;
         }
         else if (strcasecmp(tmp, "false") == 0)
         {
-            unfocus_exit = False;
+            unfocus_exit = false;
         }
     }
 }
@@ -607,7 +608,7 @@ int main(int argc, char **argv)
     }
     if (mouse_on == Undef)                     /* mouse menu selection */
     {
-        mouse_on = True;
+        mouse_on = true;
     }
     if (style == snazzy)                       /* default display style */
     {
@@ -726,7 +727,8 @@ void run_menu(int cur)
     KeySym key;
     XEvent event;
     XClientMessageEvent *cmsg;
-    int i, wide, high, dx, dy, mousing = False, cur_store = cur;
+    bool mousing = false;
+    int i, wide, high, dx, dy, cur_store = cur;
 
     /* Currently selected menu item */
     if (cur  <  -1)
@@ -759,7 +761,7 @@ void run_menu(int cur)
 
     visible_items = dy / high;
 
-    if (debug == True)
+    if (debug == true)
     {
         fprintf(stderr, "Facts about window to open:\n"
                 "  Window height: %d\n"
@@ -778,7 +780,7 @@ void run_menu(int cur)
      * rather than modifying the Event test loop below.
      */
     XSelectInput(dpy, menuwin,
-                 (mouse_on == True ? MenuMask : MenuMaskNoMouse));
+                 (mouse_on == true ? MenuMask : MenuMaskNoMouse));
 
     XMapWindow(dpy, menuwin);
 
@@ -788,34 +790,34 @@ void run_menu(int cur)
     {
         /* BadWindow not mentioned in doc */
         XNextEvent(dpy, &event);
-        if (debug == True)
+        if (debug == true)
             fprintf(stderr, "X event: %s\n",
                     event_names[event.type]); /* DEBUG thingy */
         switch (event.type)
         {
 
             case EnterNotify:
-                if (mousing == True)
+                if (mousing == true)
                 {
                     break;
                 }
                 cur_store = cur;
-                mousing = True;
+                mousing = true;
                 break;
 
             case LeaveNotify:
-                if (mousing == False)
+                if (mousing == false)
                 {
                     break;
                 }
                 /* fprintf(stderr, "going out\n"); */
                 cur = cur_store;
                 redraw_mouse(cur, high, wide);
-                mousing = False;
+                mousing = false;
                 break;
 
             case ButtonRelease:
-                if (mousing == False)
+                if (mousing == false)
                 {
                     break;
                 }
@@ -855,7 +857,7 @@ void run_menu(int cur)
 
             case ButtonPress:
             case MotionNotify:
-                if (mousing == False)
+                if (mousing == false)
                 {
                     break;
                 }
@@ -1028,7 +1030,7 @@ void run_menu(int cur)
                 {
                     cur_scroll_offset = scroll_offset;
                 }
-                if (debug == True)
+                if (debug == true)
                 {
                     fprintf(stderr, "  Window resized/moved:\n"
                             "    Window height (old/new):%4d /%4d\n"
@@ -1042,7 +1044,7 @@ void run_menu(int cur)
             break;
 
             case UnmapNotify:                  /* win becomes hidden */
-                if (unfocus_exit == True)
+                if (unfocus_exit == true)
                 {
                     return;
                 }
@@ -1060,7 +1062,7 @@ void run_menu(int cur)
             case FocusIn:
                 break;               /* win becomes focused again */
             case FocusOut:                     /* win becomes unfocused   */
-                if (unfocus_exit == True)
+                if (unfocus_exit == true)
                 {
                     XDestroyWindow(dpy, menuwin);
                     return;
@@ -1078,7 +1080,7 @@ void run_menu(int cur)
                     new_height = gaga.height - (gaga.height % high);
                     if (gaga.height != new_height)
                     {
-                        if (debug == True)
+                        if (debug == true)
                         {
                             fprintf(stderr, "RESIZING window to:\n"
                                     "  Old  height: %d\n"
@@ -1088,11 +1090,11 @@ void run_menu(int cur)
                         }
                         /* FIXME window doesn't get resized, why not? */
                         XResizeWindow(dpy, menuwin, 100, new_height);
-                        XSync(dpy, True);
+                        XSync(dpy, true);
 
                         if (XGetWindowAttributes(dpy, menuwin, &gaga))
                         {
-                            if (debug == True)
+                            if (debug == true)
                             {
                                 fprintf(stderr, "Window height after resizing: %d\n",
                                         gaga.height);
@@ -1119,7 +1121,7 @@ void run_menu(int cur)
 
             }
             case Expose:                       /* win becomes partly covered */
-                full_redraw = True;
+                full_redraw = true;
                 redraw(cur, high, wide);
                 /* `while' skips immediately subsequent Expose events in queue,
                  * which avoids superflous window redraws; taken from:
@@ -1194,7 +1196,7 @@ void set_wm_hints(int wide, int high, int font_height)
     menuwin = XCreateSimpleWindow(dpy, root, sizehints.x, sizehints.y,
                                   sizehints.width, sizehints.height, 1, fg, bg);
 
-    wmhints->input         = True;
+    wmhints->input         = true;
     wmhints->initial_state = NormalState;
     wmhints->flags         = StateHint | InputHint;
 
@@ -1210,11 +1212,11 @@ void ask_wm_for_delete(void)
 {
     int status;
 
-    wm_protocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
-    wm_delete_window = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+    wm_protocols = XInternAtom(dpy, "WM_PROTOCOLS", false);
+    wm_delete_window = XInternAtom(dpy, "WM_DELETE_WINDOW", false);
     status = XSetWMProtocols(dpy, menuwin, &wm_delete_window, 1);
 
-    if (status != True)
+    if (status != true)
         fprintf(stderr, "%s: cannot ask for clean delete\n",
                 PACKAGE);
 }
@@ -1267,7 +1269,7 @@ void redraw_mouse(int cur_item, int high, int wide)
     }
     XFillRectangle(dpy, menuwin, gc, 0, (last_item - last_top) * high, wide, high);
     XFillRectangle(dpy, menuwin, gc, 0, (cur_item  - last_top) * high, wide, high);
-    if (debug == True)
+    if (debug == true)
         fprintf(stderr, "current item: %d (of %d-%d)\n",
                 cur_item, last_top, last_top + visible_items);
     last_item = cur_item;
@@ -1279,7 +1281,7 @@ void redraw_dreary(int cur_item, int high, int wide)
     int i, j, ty, tx;
     int cur_top = last_top;                    /* local top var */
 
-    if (cur_item == last_item && full_redraw != True)
+    if (cur_item == last_item && full_redraw != true)
     {
         return;    /* no movement = no update */
     }
@@ -1312,10 +1314,10 @@ void redraw_dreary(int cur_item, int high, int wide)
     }
 
 
-    if (full_redraw == True || cur_top != last_top)
+    if (full_redraw == true || cur_top != last_top)
     {
         /* redraw all visible items */
-        if (debug == True)
+        if (debug == true)
         {
             fprintf(stderr, "  (full menu redraw)\n");
         }
@@ -1343,12 +1345,12 @@ void redraw_dreary(int cur_item, int high, int wide)
             XFillRectangle(dpy, menuwin, gc, 0, (cur_item - cur_top) * high, wide, high);
         }
         last_top    = cur_top;
-        full_redraw = False;
+        full_redraw = false;
     }
     else
     {
         /* only invert last & current item */
-        if (debug == True)
+        if (debug == true)
         {
             fprintf(stderr, "  (partial menu redraw)\n");
         }
