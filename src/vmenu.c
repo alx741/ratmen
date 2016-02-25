@@ -14,6 +14,7 @@
 #include <X11/Xresource.h>
 #include <getopt.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include "misc.h"
 #include "config.h"
 
@@ -66,7 +67,12 @@ bool full_redraw   =  true;                     /* redraw all menu items */
 int cur_scroll_offset = Undef;
 
 /* command line setting variables */
-enum  { left, center, right } align = Undef;   /* -l, -r, -c, --align WAY */
+enum align_t {left, center, right};   /* -l, -r, -c, --align WAY */
+enum align_t align = Undef;
+enum output_t {print, execute};     /* -p, --print */
+enum style_t {dreary, snazzy};        /* -s, --style STYLE */
+enum output_t output = execute;
+enum style_t style = Undef;
 char *prevmenu     = NULL;                     /* -b, --back PREVMENU */
 char *bgcname      = NULL;                     /*     --background BGCOLOR */
 char *classname    = NULL;                     /* -C, --class CLASSNAME */
@@ -77,10 +83,8 @@ char *fgcname      = NULL;                     /*     --foreground FGCOLOR */
 char *fontname     = NULL;                     /* -F, --font FNAME */
 int   cur_item     = 0;                        /* -i, --item POSITION */
 bool   mouse_on     = Undef;                    /*     --mouse / --no-mouse */
-enum  { print, execute } output = execute;     /* -p, --print */
 int   scroll_offset = Undef;                   /* -o, --scroll-offset ITEMS */
 char *shell        = "/bin/sh";                /* -S, --shell SHELL */
-enum  { dreary, snazzy } style = Undef;        /* -s, --style STYLE */
 char *titlename    = NULL;                     /* -t, --title NAME */
 bool   unfocus_exit = Undef;                    /* -u, --unfocus-exit */
 
