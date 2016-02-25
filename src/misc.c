@@ -51,3 +51,11 @@ void print_version(void)
            "Distributed under the GNU Public License.\n", PACKAGE);
     exit(0);
 }
+
+
+void die(char *message)
+{
+    fprintf(stderr, "%s: %s\n", PACKAGE, message);
+    fprintf(stderr, "Try `%s --help' for more information.\n", PACKAGE);
+    exit(1);
+}

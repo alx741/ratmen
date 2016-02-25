@@ -115,15 +115,6 @@ static char *event_names[] =
 };
 
 
-/* produce error message */
-void die(char *message)
-{
-    fprintf(stderr, "%s: %s\n", PACKAGE, message);
-    fprintf(stderr, "Try `%s --help' for more information.\n", PACKAGE);
-    exit(1);
-}
-
-
 /* rewritten to use getopts by Zrajm */
 int args(int argc, char **argv)
 {
@@ -574,7 +565,6 @@ int HandleXError(Display *dpy, XErrorEvent *event)
 int main(int argc, char **argv)
 {
     int i;
-    char *cp;
     XGCValues gv;
     unsigned long mask;
     g_argc = argc;                             /* save command line args */
