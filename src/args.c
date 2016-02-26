@@ -6,11 +6,8 @@
 #include <getopt.h>
 #include <stdlib.h>
 
-#define Undef -1
-
-struct opts_t opts = { Undef, execute, Undef, NULL, NULL, NULL, false, NULL,
-    NULL, NULL, NULL, 0, Undef, Undef, "/bin/sh", NULL, Undef };
-
+struct opts_t opts = { a_undef, execute, s_undef, NULL, NULL, NULL, false, NULL,
+    NULL, NULL, NULL, 0, false, 0, "/bin/sh", NULL, false };
 
 static void set_args(char option);
 

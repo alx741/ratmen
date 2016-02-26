@@ -52,8 +52,6 @@ int savex, savey;
 Window savewindow;
 
 
-#define Undef -1
-
 /* menu structure */
 char **labels;                                 /* list of menu labels */
 char **commands;                               /* list of menu commands */
@@ -65,7 +63,7 @@ int visible_items;                             /* number of items visible */
 int last_item     = -1;                        /* previously selected item */
 int last_top      = -1;                        /* previous top item in menu */
 bool full_redraw   =  true;                     /* redraw all menu items */
-int cur_scroll_offset = Undef;
+int cur_scroll_offset = 0;
 
 
 
@@ -141,7 +139,7 @@ void xresources(Display *dpy)
     }
 
     /* align: {left|center|right} */
-    tmp = xresource_if((opts.align == Undef), dpy, opts.classname, "align");
+    tmp = xresource_if((opts.align == a_undef), dpy, opts.classname, "align");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "left") == 0)
@@ -184,7 +182,7 @@ void xresources(Display *dpy)
 
 
     /* mouse: {on|yes|true|off|no|false} */
-    tmp = xresource_if((opts.mouse_on == Undef), dpy, opts.classname, "mouse");
+    tmp = xresource_if((opts.mouse_on == false), dpy, opts.classname, "mouse");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "on")  == 0)
@@ -215,7 +213,7 @@ void xresources(Display *dpy)
 
 
     /* style: {dreary|snazzy} */
-    tmp = xresource_if((opts.style == Undef), dpy, opts.classname, "style");
+    tmp = xresource_if((opts.style == s_undef), dpy, opts.classname, "style");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "dreary") == 0)
@@ -230,7 +228,7 @@ void xresources(Display *dpy)
 
 
     /* scrollOffset: ITEMS */
-    tmp = xresource_if((opts.scroll_offset == Undef), dpy, opts.classname, "scrollOffset");
+    tmp = xresource_if((opts.scroll_offset == 0), dpy, opts.classname, "scrollOffset");
     if (tmp != NULL)
     {
         opts.scroll_offset = atoi(tmp);
@@ -238,7 +236,7 @@ void xresources(Display *dpy)
 
 
     /* unfocusExit: {on|yes|true|off|no|false} */
-    tmp = xresource_if((opts.unfocus_exit == Undef), dpy, opts.classname, "unfocusExit");
+    tmp = xresource_if((opts.unfocus_exit == false), dpy, opts.classname, "unfocusExit");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "on")  == 0)
@@ -388,11 +386,11 @@ int main(int argc, char **argv)
     {
         opts.fontname = FONT;    /* default font */
     }
-    if (opts.scroll_offset == Undef)                /* default scroll offset */
+    if (opts.scroll_offset == 0)                /* default scroll offset */
     {
         opts.scroll_offset = 3;
     }
-    if (opts.mouse_on == Undef)                     /* mouse menu selection */
+    if (opts.mouse_on == false)                     /* mouse menu selection */
     {
         opts.mouse_on = true;
     }
