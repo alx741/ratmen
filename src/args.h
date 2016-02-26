@@ -23,4 +23,6 @@ extern char *shell;          // -S, --shell SHELL
 extern char *titlename;      // -t, --title NAME
 extern bool unfocus_exit;    // -u, --unfocus-exit
 
-int args(int argc, char **argv);
+
+/* Returns the ARGV index of the first element that is NOT an option */
+int parse_args(int argc, char **argv);

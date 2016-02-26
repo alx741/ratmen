@@ -26,61 +26,49 @@ char *shell          = "/bin/sh";
 char *titlename      = NULL;
 bool   unfocus_exit  = Undef;
 
-int args(int argc, char **argv)
+
+int parse_args(int argc, char **argv)
 {
-    int c;
+    static struct option long_options[] =
+    {
+        {"align",           required_argument, 0, 'A'},
+        {"back",            required_argument, 0, 'b'},
+        {"background",      required_argument, 0, 'B'},
+        {"class",           required_argument, 0, 'c'},
+        {"debug",           no_argument,       0, 'X'},
+        {"delimiter",       required_argument, 0, 'd'},
+        {"display",         required_argument, 0, 'D'},
+        {"foreground",      required_argument, 0, 'E'},
+        {"font",            required_argument, 0, 'F'},
+        {"help",            no_argument,       0, 'h'},
+        {"item",            required_argument, 0, 'i'},
+        {"mouse",           no_argument,       0, 'm'},
+        {"no-mouse",        no_argument,       0, 'M'},
+        {"print",           no_argument,       0, 'p'},
+        {"scroll-offset",   required_argument, 0, 'o'},
+        {"shell",           required_argument, 0, 'S'},
+        {"style",           required_argument, 0, 's'},
+        {"title",           required_argument, 0, 't'},
+        {"unfocus-exit",    no_argument,       0, 'u'},
+        {"no-unfocus-exit", no_argument,       0, 'U'},
+        {"version",         no_argument,       0, 'V'},
+        {0, 0, 0, 0}
+    };
+
     while (1)
     {
-        static struct option long_options[] =
-        {
-            {"align",           required_argument, 0, 'A'}, /* no shortopt */
-            {"back",            required_argument, 0, 'b'},
-            {"background",      required_argument, 0, 'B'}, /* no shortopt */
-            {"class",           required_argument, 0, 'c'},
-            {"debug",           no_argument,       0, 'X'}, /* no shortopt */
-            {"delimiter",       required_argument, 0, 'd'},
-            {"display",         required_argument, 0, 'D'},
-            {"foreground",      required_argument, 0, 'E'}, /* no shortopt */
-            {"font",            required_argument, 0, 'F'},
-            {"help",            no_argument,       0, 'h'},
-            {"item",            required_argument, 0, 'i'},
-            {"mouse",           no_argument,       0, 'm'}, /* no shortopt */
-            {"no-mouse",        no_argument,       0, 'M'}, /* no shortopt */
-            {"print",           no_argument,       0, 'p'},
-            {"scroll-offset",   required_argument, 0, 'o'},
-            {"shell",           required_argument, 0, 'S'},
-            {"style",           required_argument, 0, 's'},
-            {"title",           required_argument, 0, 't'},
-            {"unfocus-exit",    no_argument,       0, 'u'},
-            {"no-unfocus-exit", no_argument,       0, 'U'},
-            {"version",         no_argument,       0, 'V'},
-            {0, 0, 0, 0}
-        };
-
-        /* getopt_long stores the option index here. */
-        int option_index = 0;
-        c = getopt_long(argc, argv, "b:cC:d:D:F:hi:lo:prS:s:t:V",
-                        long_options, &option_index);
+        int current_longoption_index = 0;
+        int option = getopt_long(argc, argv, "b:cC:d:D:F:hi:lo:prS:s:t:V",
+                                 long_options, &current_longoption_index);
 
         /* Detect the end of the options. */
-        if (c == -1)
+        if (option == -1)
         {
             break;
         }
 
-        switch (c)
+        switch (option)
         {
-            /*case 0:
-                printf("gaga\n");*/
-            /* If this option set a flag, do nothing else now. */
-            /*if (long_options[option_index].flag != 0)
-                break;
-            printf ("option %s", long_options[option_index].name);
-            if (optarg)
-                printf (" with arg %s", optarg);
-            printf ("\n");
-            break;*/
-
             case 'A': /* --align {left|center|right} */
                 if (strcasecmp(optarg, "left") == 0)
                 {

@@ -361,7 +361,7 @@ int main(int argc, char **argv)
     /* set defaults for non-resource options */
     titlename = PACKAGE;                      /* default window title */
     classname = PACKAGE;                      /* default X resource class */
-    i = args(argc, argv);                      /* process command line args */
+    i = parse_args(argc, argv);                      /* process command line args */
     items(i, argc, argv);                      /* process menu items */
 
     dpy = XOpenDisplay(displayname);
