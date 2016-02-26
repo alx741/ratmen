@@ -1,27 +1,28 @@
 #pragma once
 #include <stdbool.h>
 
-enum align_t {left, center, right};
-enum output_t {print, execute};
-enum style_t {dreary, snazzy};
+struct opts_t
+{
+    enum align_t {left, center, right} align; // -l, -r, -c, --align WAY
+    enum output_t {print, execute} output;    // -p, --print
+    enum style_t {dreary, snazzy} style;      // -s, --style STYLE
+    char *prevmenu;                           // -b, --back PREVMENU
+    char *bgcname;                            // --background BGCOLOR
+    char *classname;                          // -C, --class CLASSNAME
+    bool debug;                               // --debug
+    char *delimiter;                          // -d, --delimiter DELIM
+    char *displayname;                        // -D, --display DISPLAYNAME
+    char *fgcname;                            // --foreground FGCOLOR
+    char *fontname;                           // -F, --font FNAME
+    int cur_item;                             // -i, --item POSITION
+    bool mouse_on;                            // --mouse / --no-mouse
+    int scroll_offset;                        // -o, --scroll-offset ITEMS
+    char *shell;                              // -S, --shell SHELL
+    char *titlename;                          // -t, --title NAME
+    bool unfocus_exit;                        // -u, --unfocus-exit
+};
 
-extern enum align_t align;   // -l, -r, -c, --align WAY
-extern enum output_t output; // -p, --print
-extern enum style_t style;   // -s, --style STYLE
-extern char *prevmenu;       // -b, --back PREVMENU
-extern char *bgcname;        // --background BGCOLOR
-extern char *classname;      // -C, --class CLASSNAME
-extern bool debug;           // --debug
-extern char *delimiter;      // -d, --delimiter DELIM
-extern char *displayname;    // -D, --display DISPLAYNAME
-extern char *fgcname;        // --foreground FGCOLOR
-extern char *fontname;       // -F, --font FNAME
-extern int cur_item;         // -i, --item POSITION
-extern bool mouse_on;        // --mouse / --no-mouse
-extern int scroll_offset;    // -o, --scroll-offset ITEMS
-extern char *shell;          // -S, --shell SHELL
-extern char *titlename;      // -t, --title NAME
-extern bool unfocus_exit;    // -u, --unfocus-exit
+extern struct opts_t opts;
 
 
 /* Returns the ARGV index of the first element that is NOT an option */

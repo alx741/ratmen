@@ -115,16 +115,16 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
             if ((cut = strchr(tmp, ' ')))      |* trunc at 1st space *|
                 *cut++ = '\0';
             */
-            if (debug == true)
+            if (opts.debug == true)
                 fprintf(stderr, "  %s.%-12s: >%s<\n",
                         PACKAGE, resource, tmp);
             return tmp;
         }
-        else if (debug == true)                /* no resource found */
+        else if (opts.debug == true)                /* no resource found */
             fprintf(stderr, "  %s.%-12s: [not defined in X resources]\n",
                     PACKAGE, resource);
     }
-    else if (debug == true)                    /* given on command line */
+    else if (opts.debug == true)                    /* given on command line */
         fprintf(stderr, "  %s.%-12s: [overriden by command line]\n",
                 PACKAGE, resource);
     return NULL;
@@ -135,135 +135,135 @@ char *xresource_if(int test, Display *dpy, char *progname, char *resource)
 void xresources(Display *dpy)
 {
     char *tmp = "";
-    if (debug == true)
+    if (opts.debug == true)
     {
         fprintf(stderr, "Reading X resources:\n");
     }
 
     /* align: {left|center|right} */
-    tmp = xresource_if((align == Undef), dpy, classname, "align");
+    tmp = xresource_if((opts.align == Undef), dpy, opts.classname, "align");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "left") == 0)
         {
-            align = left;
+            opts.align = left;
         }
         else if (strcasecmp(tmp, "center") == 0)
         {
-            align = center;
+            opts.align = center;
         }
         else if (strcasecmp(tmp, "right") == 0)
         {
-            align = right;
+            opts.align = right;
         }
     }
 
 
     /* background: BGCOLOR */
-    tmp = xresource_if((bgcname == NULL), dpy, classname, "background");
+    tmp = xresource_if((opts.bgcname == NULL), dpy, opts.classname, "background");
     if (tmp != NULL)
     {
-        bgcname = tmp;
+        opts.bgcname = tmp;
     }
 
 
     /* font: FNAME */
-    tmp = xresource_if((fontname == NULL), dpy, classname, "font");
+    tmp = xresource_if((opts.fontname == NULL), dpy, opts.classname, "font");
     if (tmp != NULL)
     {
-        fontname = tmp;
+        opts.fontname = tmp;
     }
 
 
     /* foreground: FGCOLOR */
-    tmp = xresource_if((fgcname == NULL), dpy, classname, "foreground");
+    tmp = xresource_if((opts.fgcname == NULL), dpy, opts.classname, "foreground");
     if (tmp != NULL)
     {
-        fgcname = tmp;
+        opts.fgcname = tmp;
     }
 
 
     /* mouse: {on|yes|true|off|no|false} */
-    tmp = xresource_if((mouse_on == Undef), dpy, classname, "mouse");
+    tmp = xresource_if((opts.mouse_on == Undef), dpy, opts.classname, "mouse");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "on")  == 0)
         {
-            mouse_on = true;
+            opts.mouse_on = true;
         }
         else if (strcasecmp(tmp, "yes")   == 0)
         {
-            mouse_on = true;
+            opts.mouse_on = true;
         }
         else if (strcasecmp(tmp, "true")  == 0)
         {
-            mouse_on = true;
+            opts.mouse_on = true;
         }
         else if (strcasecmp(tmp, "off")   == 0)
         {
-            mouse_on = false;
+            opts.mouse_on = false;
         }
         else if (strcasecmp(tmp, "no")    == 0)
         {
-            mouse_on = false;
+            opts.mouse_on = false;
         }
         else if (strcasecmp(tmp, "false") == 0)
         {
-            mouse_on = false;
+            opts.mouse_on = false;
         }
     }
 
 
     /* style: {dreary|snazzy} */
-    tmp = xresource_if((style == Undef), dpy, classname, "style");
+    tmp = xresource_if((opts.style == Undef), dpy, opts.classname, "style");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "dreary") == 0)
         {
-            style = dreary;
+            opts.style = dreary;
         }
         else if (strcasecmp(tmp, "snazzy") == 0)
         {
-            style = snazzy;
+            opts.style = snazzy;
         }
     }
 
 
     /* scrollOffset: ITEMS */
-    tmp = xresource_if((scroll_offset == Undef), dpy, classname, "scrollOffset");
+    tmp = xresource_if((opts.scroll_offset == Undef), dpy, opts.classname, "scrollOffset");
     if (tmp != NULL)
     {
-        scroll_offset = atoi(tmp);
+        opts.scroll_offset = atoi(tmp);
     }
 
 
     /* unfocusExit: {on|yes|true|off|no|false} */
-    tmp = xresource_if((unfocus_exit == Undef), dpy, classname, "unfocusExit");
+    tmp = xresource_if((opts.unfocus_exit == Undef), dpy, opts.classname, "unfocusExit");
     if (tmp != NULL)
     {
         if (strcasecmp(tmp, "on")  == 0)
         {
-            unfocus_exit = true;
+            opts.unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "yes")   == 0)
         {
-            unfocus_exit = true;
+            opts.unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "true")  == 0)
         {
-            unfocus_exit = true;
+            opts.unfocus_exit = true;
         }
         else if (strcasecmp(tmp, "off")   == 0)
         {
-            unfocus_exit = false;
+            opts.unfocus_exit = false;
         }
         else if (strcasecmp(tmp, "no")    == 0)
         {
-            unfocus_exit = false;
+            opts.unfocus_exit = false;
         }
         else if (strcasecmp(tmp, "false") == 0)
         {
-            unfocus_exit = false;
+            opts.unfocus_exit = false;
         }
     }
 }
@@ -274,7 +274,7 @@ void items(int start, int count, char **arg)
     int j;
     char *cut;
 
-    if (delimiter)                             /* using delimiter */
+    if (opts.delimiter)                             /* using delimiter */
     {
         /* do things similar to `9menu' */
         if (count - start < 1)
@@ -293,10 +293,10 @@ void items(int start, int count, char **arg)
         for (j = 0; j < numitems; j ++)
         {
             labels[j] = arg[start + j];
-            if ((cut  = strstr(labels[j], delimiter)) != NULL)
+            if ((cut  = strstr(labels[j], opts.delimiter)) != NULL)
             {
                 *cut  = '\0';
-                cut += strlen(delimiter);
+                cut += strlen(opts.delimiter);
                 commands[j] = cut;
             }
             else
@@ -359,18 +359,18 @@ int main(int argc, char **argv)
 
 
     /* set defaults for non-resource options */
-    titlename = PACKAGE;                      /* default window title */
-    classname = PACKAGE;                      /* default X resource class */
+    opts.titlename = PACKAGE;                      /* default window title */
+    opts.classname = PACKAGE;                      /* default X resource class */
     i = parse_args(argc, argv);                      /* process command line args */
     items(i, argc, argv);                      /* process menu items */
 
-    dpy = XOpenDisplay(displayname);
+    dpy = XOpenDisplay(opts.displayname);
     if (dpy == NULL)
     {
         fprintf(stderr, "%s: cannot open display", PACKAGE);
-        if (displayname != NULL)
+        if (opts.displayname != NULL)
         {
-            fprintf(stderr, " %s", displayname);
+            fprintf(stderr, " %s", opts.displayname);
         }
         fprintf(stderr, "\n");
         exit(1);
@@ -384,19 +384,19 @@ int main(int argc, char **argv)
     xresources(dpy);
 
     /* defaults (for undefined cases) */
-    if (fontname == NULL)
+    if (opts.fontname == NULL)
     {
-        fontname = FONT;    /* default font */
+        opts.fontname = FONT;    /* default font */
     }
-    if (scroll_offset == Undef)                /* default scroll offset */
+    if (opts.scroll_offset == Undef)                /* default scroll offset */
     {
-        scroll_offset = 3;
+        opts.scroll_offset = 3;
     }
-    if (mouse_on == Undef)                     /* mouse menu selection */
+    if (opts.mouse_on == Undef)                     /* mouse menu selection */
     {
-        mouse_on = true;
+        opts.mouse_on = true;
     }
-    if (style == snazzy)                       /* default display style */
+    if (opts.style == snazzy)                       /* default display style */
     {
         redraw = redraw_snazzy;
     }
@@ -404,15 +404,15 @@ int main(int argc, char **argv)
     {
         redraw = redraw_dreary;
     }
-    cur_scroll_offset = scroll_offset;
+    cur_scroll_offset = opts.scroll_offset;
 
     screen         = DefaultScreen(dpy);
     root           = RootWindow(dpy, screen);
     display_height = DisplayHeight(dpy, screen);
 
     dcmap = DefaultColormap(dpy, screen);
-    if (fgcname == NULL ||
-            XParseColor(dpy, dcmap, fgcname, &color) == 0 ||
+    if (opts.fgcname == NULL ||
+            XParseColor(dpy, dcmap, opts.fgcname, &color) == 0 ||
             XAllocColor(dpy, dcmap, &color) == 0
        )
     {
@@ -423,8 +423,8 @@ int main(int argc, char **argv)
         fg = color.pixel;
     }
 
-    if (bgcname == NULL ||
-            XParseColor(dpy, dcmap, bgcname, &color) == 0 ||
+    if (opts.bgcname == NULL ||
+            XParseColor(dpy, dcmap, opts.bgcname, &color) == 0 ||
             XAllocColor(dpy, dcmap, &color) == 0
        )
     {
@@ -435,9 +435,9 @@ int main(int argc, char **argv)
         bg = color.pixel;
     }
 
-    if ((font = XLoadQueryFont(dpy, fontname)) == NULL)
+    if ((font = XLoadQueryFont(dpy, opts.fontname)) == NULL)
     {
-        fprintf(stderr, "%s: fatal: cannot load font `%s'\n", PACKAGE, fontname);
+        fprintf(stderr, "%s: fatal: cannot load font `%s'\n", PACKAGE, opts.fontname);
         exit(1);
     }
 
@@ -451,7 +451,7 @@ int main(int argc, char **argv)
 
     signal(SIGCHLD, reap);
 
-    run_menu(cur_item);
+    run_menu(opts.cur_item);
 
     /* XCloseDisplay() cannot generate BadWindow */
     XCloseDisplay(dpy);
@@ -467,14 +467,14 @@ void spawn(char *com)
 
     if (sh_base == NULL)
     {
-        sh_base = strrchr(shell, '/');
+        sh_base = strrchr(opts.shell, '/');
         if (sh_base != NULL)
         {
             sh_base++;
         }
         else
         {
-            sh_base = shell;
+            sh_base = opts.shell;
         }
     }
 
@@ -490,7 +490,7 @@ void spawn(char *com)
     }
 
     close(ConnectionNumber(dpy));
-    execl(shell, sh_base, "-c", com, NULL);
+    execl(opts.shell, sh_base, "-c", com, NULL);
     _exit(1);
 }
 
@@ -547,7 +547,7 @@ void run_menu(int cur)
 
     visible_items = dy / high;
 
-    if (debug == true)
+    if (opts.debug == true)
     {
         fprintf(stderr, "Facts about window to open:\n"
                 "  Window height: %d\n"
@@ -566,7 +566,7 @@ void run_menu(int cur)
      * rather than modifying the Event test loop below.
      */
     XSelectInput(dpy, menuwin,
-                 (mouse_on == true ? MenuMask : MenuMaskNoMouse));
+                 (opts.mouse_on == true ? MenuMask : MenuMaskNoMouse));
 
     XMapWindow(dpy, menuwin);
 
@@ -576,7 +576,7 @@ void run_menu(int cur)
     {
         /* BadWindow not mentioned in doc */
         XNextEvent(dpy, &event);
-        if (debug == true)
+        if (opts.debug == true)
             fprintf(stderr, "X event: %s\n",
                     event_names[event.type]); /* DEBUG thingy */
         switch (event.type)
@@ -609,7 +609,7 @@ void run_menu(int cur)
                 }
                 if (event.xbutton.button == Button1)   /* left button */
                 {
-                    if (output == print)
+                    if (opts.output == print)
                     {
                         printf("%s\n", commands[cur]);
                     }
@@ -621,15 +621,15 @@ void run_menu(int cur)
                 }
                 else if (event.xbutton.button == Button3)     /* right */
                 {
-                    if (prevmenu)
+                    if (opts.prevmenu)
                     {
-                        if (output == print)
+                        if (opts.output == print)
                         {
-                            printf("%s\n", prevmenu);
+                            printf("%s\n", opts.prevmenu);
                         }
                         else
                         {
-                            spawn(prevmenu);
+                            spawn(opts.prevmenu);
                         }
                         return;
                     }
@@ -664,15 +664,15 @@ void run_menu(int cur)
 
                     case XK_Left:
                     case XK_h:
-                        if (prevmenu)
+                        if (opts.prevmenu)
                         {
-                            if (output == print)
+                            if (opts.output == print)
                             {
-                                printf("%s\n", prevmenu);
+                                printf("%s\n", opts.prevmenu);
                             }
                             else
                             {
-                                spawn(prevmenu);
+                                spawn(opts.prevmenu);
                             }
                             return;
                         }
@@ -681,7 +681,7 @@ void run_menu(int cur)
                     case XK_Right:
                     case XK_Return:
                     case XK_l:
-                        if (output == print)
+                        if (opts.output == print)
                         {
                             printf("%s\n", commands[cur]);
                         }
@@ -812,11 +812,11 @@ void run_menu(int cur)
                 new_height = gaga.height - (gaga.height % high);
                 visible_items = new_height / high;
                 cur_scroll_offset = (visible_items - 1) / 2;
-                if (cur_scroll_offset > scroll_offset)
+                if (cur_scroll_offset > opts.scroll_offset)
                 {
-                    cur_scroll_offset = scroll_offset;
+                    cur_scroll_offset = opts.scroll_offset;
                 }
-                if (debug == true)
+                if (opts.debug == true)
                 {
                     fprintf(stderr, "  Window resized/moved:\n"
                             "    Window height (old/new):%4d /%4d\n"
@@ -824,13 +824,13 @@ void run_menu(int cur)
                             "    Scroll offset (cmd/cur):%4d /%4d\n",
                             gaga.height,      new_height,
                             gaga.height / high, new_height / high,
-                            scroll_offset,    cur_scroll_offset);
+                            opts.scroll_offset,    cur_scroll_offset);
                 }
             }
             break;
 
             case UnmapNotify:                  /* win becomes hidden */
-                if (unfocus_exit == true)
+                if (opts.unfocus_exit == true)
                 {
                     return;
                 }
@@ -848,7 +848,7 @@ void run_menu(int cur)
             case FocusIn:
                 break;               /* win becomes focused again */
             case FocusOut:                     /* win becomes unfocused   */
-                if (unfocus_exit == true)
+                if (opts.unfocus_exit == true)
                 {
                     XDestroyWindow(dpy, menuwin);
                     return;
@@ -866,7 +866,7 @@ void run_menu(int cur)
                     new_height = gaga.height - (gaga.height % high);
                     if (gaga.height != new_height)
                     {
-                        if (debug == true)
+                        if (opts.debug == true)
                         {
                             fprintf(stderr, "RESIZING window to:\n"
                                     "  Old  height: %d\n"
@@ -880,7 +880,7 @@ void run_menu(int cur)
 
                         if (XGetWindowAttributes(dpy, menuwin, &gaga))
                         {
-                            if (debug == true)
+                            if (opts.debug == true)
                             {
                                 fprintf(stderr, "Window height after resizing: %d\n",
                                         gaga.height);
@@ -888,13 +888,13 @@ void run_menu(int cur)
                         }
                         visible_items = gaga.height / high;
                         cur_scroll_offset = (visible_items - 1) / 2;
-                        if (cur_scroll_offset > scroll_offset)
+                        if (cur_scroll_offset > opts.scroll_offset)
                         {
-                            cur_scroll_offset = scroll_offset;
+                            cur_scroll_offset = opts.scroll_offset;
                         }
                         else
                             fprintf(stderr, "Shrinking scroll offset from %d to %d.\n",
-                                    scroll_offset, cur_scroll_offset);
+                                    opts.scroll_offset, cur_scroll_offset);
                     }
                 }
                 else
@@ -971,7 +971,7 @@ void set_wm_hints(int wide, int high, int font_height)
     sizehints.min_height = sizehints.height_inc  = font_height;
     sizehints.max_height = numitems * font_height;
 
-    if (XStringListToTextProperty(&titlename, 1, &wname) == 0)
+    if (XStringListToTextProperty(&opts.titlename, 1, &wname) == 0)
     {
         fprintf(stderr, "%s: cannot allocate window name structure\n",
                 PACKAGE);
@@ -1020,11 +1020,11 @@ void redraw_snazzy(int cur_item, int high, int wide)
     for (i = 0, j = cur_item; i < numitems; i++, j++)
     {
         j %= numitems;
-        if (align == right)
+        if (opts.align == right)
         {
             tx = wide - XTextWidth(font, labels[j], strlen(labels[j]));
         }
-        else if (align == center)
+        else if (opts.align == center)
         {
             tx = (wide - XTextWidth(font, labels[j], strlen(labels[j]))) / 2;
         }
@@ -1055,7 +1055,7 @@ void redraw_mouse(int cur_item, int high, int wide)
     }
     XFillRectangle(dpy, menuwin, gc, 0, (last_item - last_top) * high, wide, high);
     XFillRectangle(dpy, menuwin, gc, 0, (cur_item  - last_top) * high, wide, high);
-    if (debug == true)
+    if (opts.debug == true)
         fprintf(stderr, "current item: %d (of %d-%d)\n",
                 cur_item, last_top, last_top + visible_items);
     last_item = cur_item;
@@ -1103,7 +1103,7 @@ void redraw_dreary(int cur_item, int high, int wide)
     if (full_redraw == true || cur_top != last_top)
     {
         /* redraw all visible items */
-        if (debug == true)
+        if (opts.debug == true)
         {
             fprintf(stderr, "  (full menu redraw)\n");
         }
@@ -1111,11 +1111,11 @@ void redraw_dreary(int cur_item, int high, int wide)
         for (i = 0; i < visible_items; i++)
         {
             j = cur_top + i;
-            if (align == right)
+            if (opts.align == right)
             {
                 tx = wide - XTextWidth(font, labels[j], strlen(labels[j]));
             }
-            else if (align == center)
+            else if (opts.align == center)
             {
                 tx = (wide - XTextWidth(font, labels[j], strlen(labels[j]))) / 2;
             }
@@ -1136,7 +1136,7 @@ void redraw_dreary(int cur_item, int high, int wide)
     else
     {
         /* only invert last & current item */
-        if (debug == true)
+        if (opts.debug == true)
         {
             fprintf(stderr, "  (partial menu redraw)\n");
         }

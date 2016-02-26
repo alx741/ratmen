@@ -8,25 +8,11 @@
 
 #define Undef -1
 
-enum align_t align   = Undef;
-enum output_t output = execute;
-enum style_t style   = Undef;
-char *prevmenu       = NULL;
-char *bgcname        = NULL;
-char *classname      = NULL;
-bool   debug         = false;
-char *delimiter      = NULL;
-char *displayname;
-char *fgcname        = NULL;
-char *fontname       = NULL;
-int   cur_item       = 0;
-bool   mouse_on      = Undef;
-int   scroll_offset  = Undef;
-char *shell          = "/bin/sh";
-char *titlename      = NULL;
-bool   unfocus_exit  = Undef;
+struct opts_t opts = { Undef, execute, Undef, NULL, NULL, NULL, false, NULL,
+    NULL, NULL, NULL, 0, Undef, Undef, "/bin/sh", NULL, Undef };
 
-set_args(char option);
+
+static void set_args(char option);
 
 
 int parse_args(int argc, char **argv)
@@ -76,22 +62,22 @@ int parse_args(int argc, char **argv)
 }
 
 
-set_args(char option)
+static void set_args(char option)
 {
     switch (option)
     {
         case 'A': /* --align {left|center|right} */
             if (strcasecmp(optarg, "left") == 0)
             {
-                align = left;
+                opts.align = left;
             }
             else if (strcasecmp(optarg, "center") == 0)
             {
-                align = center;
+                opts.align = center;
             }
             else if (strcasecmp(optarg, "right") == 0)
             {
-                align = right;
+                opts.align = right;
             }
             else
             {
@@ -103,43 +89,43 @@ set_args(char option)
             break;
 
         case 'b': /* -b, --back PREVMENU */
-            prevmenu = optarg;
+            opts.prevmenu = optarg;
             break;
 
         case 'B': /* --background BGCOLOR */
-            bgcname = optarg;
+            opts.bgcname = optarg;
             break;
 
         case 'c': /* -c, --align=center */
-            align = center;
+            opts.align = center;
             break;
 
         case 'C': /* -C, --class CLASSNAME */
-            classname = optarg;
+            opts.classname = optarg;
             break;
 
         case 'X': /* --debug */
-            debug = true;
+            opts.debug = true;
             break;
 
         case 'd': /* -d, --delimiter DELIM */
-            delimiter = optarg;
-            if (strcmp(delimiter, "") == 0)
+            opts.delimiter = optarg;
+            if (strcmp(opts.delimiter, "") == 0)
             {
                 die("delimiter must be at least one character long");
             }
             break;
 
         case 'D': /* -D, --display DISPLAYNAME */
-            displayname = optarg;
+            opts.displayname = optarg;
             break;
 
         case 'F': /* -F, --font FNAME */
-            fontname = optarg;
+            opts.fontname = optarg;
             break;
 
         case 'E': /* --foreground FGCOLOR */
-            fgcname = optarg;
+            opts.fgcname = optarg;
             break;
 
         case 'h': /* -h, --help */
@@ -147,45 +133,45 @@ set_args(char option)
             break;
 
         case 'i': /* -i, --item POSITION */
-            cur_item = atoi(optarg) - 1;
+            opts.cur_item = atoi(optarg) - 1;
             break;
 
         case 'm': /*     --mouse */
-            mouse_on = true;
+            opts.mouse_on = true;
             break;
 
         case 'M': /*     --no-mouse */
-            mouse_on = false;
+            opts.mouse_on = false;
             break;
 
         case 'l': /* -l, --align=left */
-            align = left;
+            opts.align = left;
             break;
 
         case 'p': /* -p, --print */
-            output = print;
+            opts.output = print;
             break;
 
         case 'o': /* -o, --scroll-offset ITEMS */
-            scroll_offset = atoi(optarg);
+            opts.scroll_offset = atoi(optarg);
             break;
 
         case 'r': /* -r, --align=right */
-            align = right;
+            opts.align = right;
             break;
 
         case 'S': /* -S, --shell SHELL */
-            shell = optarg;
+            opts.shell = optarg;
             break;
 
         case 's': /* -s, --style {snazzy|dreary} */
             if (strcasecmp(optarg, "dreary") == 0)
             {
-                style = dreary;
+                opts.style = dreary;
             }
             else if (strcasecmp(optarg, "snazzy") == 0)
             {
-                style = snazzy;
+                opts.style = snazzy;
             }
             else
             {
@@ -197,15 +183,15 @@ set_args(char option)
             break;
 
         case 't': /* -t, --title NAME */
-            titlename = optarg;
+            opts.titlename = optarg;
             break;
 
         case 'u': /* -u, --unfocus-exit */
-            unfocus_exit = true;
+            opts.unfocus_exit = true;
             break;
 
         case 'U': /* -U, --no-unfocus-exit */
-            unfocus_exit = false;
+            opts.unfocus_exit = false;
             break;
 
         case 'V': /* -V, --version */
