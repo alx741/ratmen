@@ -6,7 +6,7 @@
 #include <getopt.h>
 #include <stdlib.h>
 
-struct opts_t opts = { a_undef, execute, s_undef, NULL, NULL, NULL, false, NULL,
+struct opts_t opts = { a_undef, execute, NULL, NULL, NULL, false, NULL,
     NULL, NULL, NULL, 0, false, 0, "/bin/sh", NULL, false };
 
 static void set_args(char option);
@@ -32,7 +32,6 @@ int parse_args(int argc, char **argv)
         {"print",           no_argument,       0, 'p'},
         {"scroll-offset",   required_argument, 0, 'o'},
         {"shell",           required_argument, 0, 'S'},
-        {"style",           required_argument, 0, 's'},
         {"title",           required_argument, 0, 't'},
         {"unfocus-exit",    no_argument,       0, 'u'},
         {"no-unfocus-exit", no_argument,       0, 'U'},
@@ -159,24 +158,6 @@ static void set_args(char option)
 
         case 'S': /* -S, --shell SHELL */
             opts.shell = optarg;
-            break;
-
-        case 's': /* -s, --style {snazzy|dreary} */
-            if (strcasecmp(optarg, "dreary") == 0)
-            {
-                opts.style = dreary;
-            }
-            else if (strcasecmp(optarg, "snazzy") == 0)
-            {
-                opts.style = snazzy;
-            }
-            else
-            {
-                char buffer[200] = "";
-                sprintf(buffer, "unknown style argument `%s' "
-                        "(should be `snazzy' or `dreary')", optarg);
-                die(buffer);
-            }
             break;
 
         case 't': /* -t, --title NAME */

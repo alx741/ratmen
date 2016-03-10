@@ -5,7 +5,6 @@ struct opts_t
 {
     enum {a_undef, left, center, right} align; // -l, -r, -c, --align WAY
     enum {o_undef, print, execute} output;     // -p, --print
-    enum {s_undef, dreary, snazzy} style;      // -s, --style STYLE
     char *prevmenu;                            // -b, --back PREVMENU
     char *bgcname;                             // --background BGCOLOR
     char *classname;                           // -C, --class CLASSNAME

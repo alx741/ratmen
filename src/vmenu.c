@@ -71,7 +71,6 @@ int cur_scroll_offset = 0;
 int  strcasecmp(char *, char *);               /* string comparison */
 void ask_wm_for_delete(void);
 void reap(int);
-void redraw_snazzy(int, int, int);
 void redraw_dreary(int, int, int);
 void redraw_mouse(int, int, int);
 void (*redraw)(int, int, int) = redraw_dreary;
@@ -212,19 +211,19 @@ void xresources(Display *dpy)
     }
 
 
-    /* style: {dreary|snazzy} */
-    tmp = xresource_if((opts.style == s_undef), dpy, opts.classname, "style");
-    if (tmp != NULL)
-    {
-        if (strcasecmp(tmp, "dreary") == 0)
-        {
-            opts.style = dreary;
-        }
-        else if (strcasecmp(tmp, "snazzy") == 0)
-        {
-            opts.style = snazzy;
-        }
-    }
+    /* /1* style: {dreary|snazzy} *1/ */
+    /* tmp = xresource_if((opts.style == s_undef), dpy, opts.classname, "style"); */
+    /* if (tmp != NULL) */
+    /* { */
+    /*     if (strcasecmp(tmp, "dreary") == 0) */
+    /*     { */
+    /*         opts.style = dreary; */
+    /*     } */
+    /*     else if (strcasecmp(tmp, "snazzy") == 0) */
+    /*     { */
+    /*         opts.style = snazzy; */
+    /*     } */
+    /* } */
 
 
     /* scrollOffset: ITEMS */
@@ -393,10 +392,6 @@ int main(int argc, char **argv)
     if (opts.mouse_on == false)                     /* mouse menu selection */
     {
         opts.mouse_on = true;
-    }
-    if (opts.style == snazzy)                       /* default display style */
-    {
-        redraw = redraw_snazzy;
     }
     else
     {
@@ -1003,37 +998,6 @@ void ask_wm_for_delete(void)
     if (status != true)
         fprintf(stderr, "%s: cannot ask for clean delete\n",
                 PACKAGE);
-}
-
-
-/* redraw --- actually draw the menu */
-void redraw_snazzy(int cur_item, int high, int wide)
-{
-    int i, j, ty, tx;
-    if (cur_item < 0)
-    {
-        cur_item = 0;    /* negative item number */
-    }
-    XClearWindow(dpy, menuwin);
-    for (i = 0, j = cur_item; i < numitems; i++, j++)
-    {
-        j %= numitems;
-        if (opts.align == right)
-        {
-            tx = wide - XTextWidth(font, labels[j], strlen(labels[j]));
-        }
-        else if (opts.align == center)
-        {
-            tx = (wide - XTextWidth(font, labels[j], strlen(labels[j]))) / 2;
-        }
-        else     /* align == left */
-        {
-            tx = 0;
-        }
-        ty = i * high + font->ascent + 1;
-        XDrawString(dpy, menuwin, gc, tx, ty, labels[j], strlen(labels[j]));
-    }
-    XFillRectangle(dpy, menuwin, gc, 0, 0, wide, high);
 }
 
 
