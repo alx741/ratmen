@@ -159,14 +159,6 @@ default X resource class name.
     silently fall back to using **/bin/sh**.
 
 
-**-s**, **--style** *{snazzy|dreary}*  (X resource: **style**)
-:   The default style is **dreary**, where the highlight bar moves up and down
-    the menu as it does on all conventional keyboard controlled menus.  In
-    **dreary** mode, the highlight bar, which shows the currently selected item,
-    remains stationary while all the menu items are rotated up or down when the
-    cursor keys are moved.
-
-
 **-t**, **--title** *NAME*
 :   Change the title of the menu window to NAME. The default title is the last
     component of the path used to run **vmenu**, typically, "vmenu".
