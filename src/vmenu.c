@@ -71,9 +71,8 @@ int cur_scroll_offset = 0;
 /* function prototypes */
 void ask_wm_for_delete(void);
 void reap(int);
-void redraw_dreary(int, int, int);
+void redraw(int, int, int);
 void redraw_mouse(int, int, int);
-void (*redraw)(int, int, int) = redraw_dreary;
 
 void run_menu(int);
 void set_wm_hints(int, int, int);
@@ -393,10 +392,7 @@ int main(int argc, char **argv)
     {
         opts.mouse_on = true;
     }
-    else
-    {
-        redraw = redraw_dreary;
-    }
+
     cur_scroll_offset = opts.scroll_offset;
 
     screen         = DefaultScreen(dpy);
@@ -1024,7 +1020,7 @@ void redraw_mouse(int cur_item, int high, int wide)
 }
 
 
-void redraw_dreary(int cur_item, int high, int wide)
+void redraw(int cur_item, int high, int wide)
 {
     int i, j, ty, tx;
     int cur_top = last_top;                    /* local top var */
