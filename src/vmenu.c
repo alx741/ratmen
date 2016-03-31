@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -68,7 +69,6 @@ int cur_scroll_offset = 0;
 
 
 /* function prototypes */
-int  strcasecmp(char *, char *);               /* string comparison */
 void ask_wm_for_delete(void);
 void reap(int);
 void redraw_dreary(int, int, int);
